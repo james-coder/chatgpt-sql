@@ -35,23 +35,23 @@ class ChatGPT:
         {"role": "assistant", "content": "{\"recipient\": \"USER\", \"message\":\"The top selling product by quantity in 2014 is the Water Bottle - 30 oz.\"}."}
     ]
 
-    def __init__(self, api_key, api_org = "", model = "gpt-3.5-turbo"):
-        if api_org:
-            openai.api_key
+    def __init__(self, api_key, api_org="", model="gpt-3.5-turbo", max_tokens=None):
         openai.api_key = api_key
         self.model = model
+        self.max_tokens = max_tokens
         self.messages = self.startMessageStack.copy()
 
     def message(self, message, sender):
         logging.debug(message)
-        if (sender):
-            message = json.dumps({'message':message, 'sender':sender})
+        if sender:
+            message = json.dumps({'message': message, 'sender': sender})
         self.messages.append({"role": "user", "content": message})
         completion = openai.ChatCompletion.create(
             model=self.model,
-            messages=self.messages
+            messages=self.messages,
+            max_tokens=self.max_tokens  # Add the max_tokens parameter here
         )
-        response = completion.choices[0].message.content 
+        response = completion.choices[0].message.content
         logging.debug(response)
         self.messages.append({"role": "assistant", "content": response})
         return response
