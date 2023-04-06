@@ -47,7 +47,7 @@ class ChatGPT:
                                       'Sales.SalesOrderHeader, DueDate, datetime\nSales.SalesOrderHeader, ShipDate, '
                                       'datetime\nSales.SalesOrderHeader, Status, tinyint\nSales.SalesOrderHeader, '
                                       'OnlineOrderFlag, bit\nSales.SalesOrderHeader, SalesOrderNumber, nvarchar\n'
-                                      'Sales.SalesOrderHeader, PurchaseOrderNumber, nvarchar\nSales.SalesOrderHeader,
+                                      'Sales.SalesOrderHeader, PurchaseOrderNumber, nvarchar\nSales.SalesOrderHeader,'
                                       'AccountNumber, nvarchar\nSales.SalesOrderHeader, CustomerID, int\n'
                                       'Sales.SalesOrderHeader, SalesPersonID, int\nSales.SalesOrderHeader, '
                                       'TerritoryID, int\nSales.SalesOrderHeader, BillToAddressID, int\n'
