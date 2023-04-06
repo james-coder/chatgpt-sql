@@ -101,11 +101,6 @@ class ChatGPT:
         {"role": "assistant", "content": (
             '{\'recipient\':\'SERVER\', \'action\':\'QUERY\', \'message\':\'SELECT TOP 1 Production.Product.Name '
             'FROM Production.Product JOIN Sales.SalesOrderDetail ON Product.ProductID = SalesOrderDetail.ProductID '
-            'JOIN Sales.SalesOrderHeader ON SalesOrderDetail.SalesOrder
-
-        {"role": "assistant", "content": (
-            '{\'recipient\':\'SERVER\', \'action\':\'QUERY\', \'message\':\'SELECT TOP 1 Production.Product.Name '
-            'FROM Production.Product JOIN Sales.SalesOrderDetail ON Product.ProductID = SalesOrderDetail.ProductID '
             'JOIN Sales.SalesOrderHeader ON SalesOrderDetail.SalesOrderID = SalesOrderHeader.SalesOrderID WHERE '
             'YEAR(SalesOrderHeader.OrderDate) = 2014 GROUP BY Product.Name ORDER BY SUM(OrderQty) DESC;\'}'
         )},
