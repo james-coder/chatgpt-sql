@@ -25,23 +25,27 @@ class GoogleCloudSQL:
 
     def execute_query(self, query):
         logging.info(f'Executing Query: {query}')
-        results = []
         try:
             with self.conn.cursor() as cursor:
                 cursor.execute(query)
-                results = cursor.fetchall()
-                if len(results) == 0:
-                    logging.debug("0 rows returned")
-                    return []
+                result = cursor.fetchall()
+                if len(result) == 0:
+                    result = "0 rows returned"
+                    logging.debug(result)
+                    return result
 
                 headers = [column[0] for column in cursor.description]
-                results.insert(0, tuple(headers))
-
-            return results
+                output = StringIO()
+                csv_writer = csv.writer(output)
+                csv_writer.writerow(headers)
+                csv_writer.writerows(result)
+                result = output.getvalue()
+                logging.debug(result)
+                return result
 
         except Exception as e:
             logging.error(f"Query error: {e}")
-            return []
+            return str(e)
 
     def process_table_string(self, input_str):
         items = input_str.split(',')
