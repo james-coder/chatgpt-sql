@@ -17,34 +17,31 @@ class GoogleCloudSQL:
             self.conn = pymysql.connect(host=self.server, user=self.user, password=self.password, database=self.database)
             return True
         except Exception as e:
-            return str(e)
+            logging.error(f"Connection error: {e}")
+            return False
 
     def close(self):
         self.conn.close()
 
     def execute_query(self, query):
-        print(f'\033[94mExecuting Query:{query}\033[0m')
+        logging.info(f'Executing Query: {query}')
+        results = []
         try:
-            cursor = self.conn.cursor()
-            cursor.execute(query)
-            result = cursor.fetchall()
-            if len(result) == 0:
-                result = "0 rows returned"
-                logging.debug(result)
-                print(f'\033[96m{result}\033[0m')
-                return result
+            with self.conn.cursor() as cursor:
+                cursor.execute(query)
+                results = cursor.fetchall()
+                if len(results) == 0:
+                    logging.debug("0 rows returned")
+                    return []
 
-            headers = [column[0] for column in cursor.description]
-            output = StringIO()
-            csv_writer = csv.writer(output)
-            csv_writer.writerow(headers)
-            csv_writer.writerows(result)
-            result = output.getvalue()
-            logging.debug(result)
-            print(f'\033[96m{result}\033[0m')
-            return result
+                headers = [column[0] for column in cursor.description]
+                results.insert(0, tuple(headers))
+
+            return results
+
         except Exception as e:
-            return str(e)
+            logging.error(f"Query error: {e}")
+            return []
 
     def process_table_string(self, input_str):
         items = input_str.split(',')
