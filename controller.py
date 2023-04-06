@@ -19,6 +19,7 @@ password = config.get("database", "password")
 openai_api_key = config.get("openai", "api_key")
 openai_org = config.get("openai", "org")
 openai_model = config.get("openai", "model")
+max_tokens = config.get("openai", "max_tokens")
 
 
 class Controller:
@@ -27,7 +28,7 @@ class Controller:
         # initialise all the things
         self.google_sql = GoogleCloudSQL(server, database, user, password)
         self.google_sql.connect()
-        self.chatModel = ChatGPT(openai_api_key, openai_org, openai_model)
+        self.chatModel = ChatGPT(openai_api_key, openai_org, openai_model, max_tokens)
 
     def run(self, message, sender, counter=0):
         if counter > 4:
