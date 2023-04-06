@@ -1,4 +1,4 @@
-import pyodbc
+import pymysql
 import csv
 import logging
 
@@ -6,17 +6,15 @@ from io import StringIO
 
 class GoogleCloudSQL:
 
-    def __init__(self, driver, server, database, user, password, encrypt="yes"):
-        self.driver = driver
+    def __init__(self, server, database, user, password):
         self.server = server
         self.database = database
         self.user = user
         self.password = password
-        self.encrypt = encrypt
 
     def connect(self):
         try:
-            self.conn = pyodbc.connect(f'DRIVER={{{self.driver}}};SERVER={self.server};DATABASE={self.database};UID={self.user};PWD={self.password};ENCRYPT={self.encrypt}')
+            self.conn = pymysql.connect(host=self.server, user=self.user, password=self.password, database=self.database)
             return True
         except Exception as e:
             return str(e)
